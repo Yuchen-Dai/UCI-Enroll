@@ -105,8 +105,7 @@ def have_space(coursecode)->bool:
 def enroll(cookie, coursecode)-> bool:
     base_url = enrollment_url.split('?',2)[1][11:]
     call = _get_call()
-    if not have_space(coursecode):
-        return False
+
     headers = {
         'Host': _get_host(base_url),
         'Connection': 'keep-alive',
