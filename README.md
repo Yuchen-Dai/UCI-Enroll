@@ -1,2 +1,2 @@
 # uci_enroll
-use python add classes
+Auto enroll classes when availlable
