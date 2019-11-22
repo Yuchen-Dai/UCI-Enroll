@@ -88,9 +88,25 @@ def post()-> str:
         return
     return cookie
 
+def have_space(coursecode)->bool:
+    #######################################
+    # YearTerm must be update every time !#
+    #######################################
+    data = {'ShowFinals': 'on', 'ShowComments': 'on', 'CancelledCourses': 'Exclude', 'Submit': 'Display Text Results', 'Web': 'Results', 'Dept': 'ALL',\
+            'Division': 'ANY', 'Breadth': 'ANY', 'FullCourses': 'ANY', 'ClassType': 'ALL', 'YearTerm': '2020-03', 'CourseNum': None, 'FontSize': '100', 'EndTime': None, \
+        'InstrName': None, 'MaxCap': None, 'Room': None, 'Days': None, 'CourseTitle': None, 'StartTime': None, 'CourseCodes': coursecode, 'Units': None, 'Bldg': None}
+    resp = requests.post('https://www.reg.uci.edu/perl/WebSoc', data=data)
+    for i in resp.text.split('\n'):
+        i = i.lower()
+        if coursecode in i and 'open' not in i:
+            return False
+    return True
+
 def enroll(cookie, coursecode)-> bool:
     base_url = enrollment_url.split('?',2)[1][11:]
     call = _get_call()
+    if not have_space(coursecode):
+        return False
     headers = {
         'Host': _get_host(base_url),
         'Connection': 'keep-alive',
