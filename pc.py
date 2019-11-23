@@ -98,9 +98,9 @@ def have_space(coursecode)->bool:
     resp = requests.post('https://www.reg.uci.edu/perl/WebSoc', data=data)
     for i in resp.text.split('\n'):
         i = i.lower()
-        if coursecode in i and 'open' not in i:
-            return False
-    return True
+        if coursecode in i and 'open' in i:
+            return True
+    return False
 
 def enroll(cookie, coursecode)-> bool:
     base_url = enrollment_url.split('?',2)[1][11:]
@@ -177,6 +177,7 @@ def _get_host(url)-> str:
     return url[8:index+3]
 
 
-
+if __name__ == '__main__':
+    print(have_space('34360'))
 
 
